@@ -1,0 +1,40 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, FlatList } from 'react-native';
+import { API, graphqlOperation } from 'aws-amplify';
+import { listInventoryItems } from './graphql/queries';
+
+const InventoryManagementScreen = () => {
+  const [inventoryItems, setInventoryItems] = useState([]);
+
+  useEffect(() => {
+    fetchInventoryItems();
+  }, []);
+
+  const fetchInventoryItems = async () => {
+    try {
+      const response = await API.graphql(graphqlOperation(listInventoryItems));
+      setInventoryItems(response.data.listInventoryItems.items);
+    } catch (error) {
+      console.error('Error fetching inventory items:', error);
+    }
+  };
+
+  return (
+    <View>
+      <Text>Inventory Management</Text>
+      <FlatList
+        data={inventoryItems}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.name}</Text>
+            <Text>{item.quantity}</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+      <Button title="Add Item" onPress={() => {/* Add item functionality */}} />
+    </View>
+  );
+};
+
+export default InventoryManagementScreen;
