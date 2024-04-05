@@ -1,0 +1,17 @@
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+
+const BillingSystemScreen = () => {
+  const generateReceipt = () => {
+    // Generate receipt functionality
+  };
+
+  return (
+    <View>
+      <Text>Billing System</Text>
+      <Button title="Generate Receipt" onPress={generateReceipt} />
+    </View>
+  );
+};
+
+export default BillingSystemScreen;
